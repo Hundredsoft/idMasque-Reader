@@ -1,0 +1,502 @@
+/*
+// idMasque Reader Copyright(C) 2015-2016 Hundredsoft Corporation.
+// 
+// This program is free software. You can redistribute it and/or modify
+// it under the GNU General Public License version 3.
+// 
+// If you want to distribute your modified version, but you don't want to
+//  distribute the modified source code, please contact info@hundredsoft.jp
+// 
+// Please read the README.TXT first.
+//
+*/
+
+@charset "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+/*	font:bold 10pt "MS UI Gothic";*/
+	font-family:arial,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ","Meiryo",Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+	font-weight:400;
+	font-size: 12pt;
+}
+body {
+	margin: 5px;
+	padding: 0;
+	color:#fff;
+	background:#606060;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+input[type="button"] {
+	border-radius: 5px;
+}
+input[type="button"]:hover:enabled {
+	background-color:#fff;
+}
+div{
+	margin: 0px;
+	padding: 0px;
+	color:#fff;
+}
+table{
+	background:#ccc;
+	color:#000;
+}
+td,th {
+	padding:0 2px;
+}
+h3 {
+	margin:0.5em;
+	padding:0;
+	display:block;
+}
+input, p {
+	padding:2px;
+	display:block;
+	float:left;
+}
+c0,c1,c2,c3,c4,c5,c6,c7,c8,c9 {
+	display:none;
+}
+input[type="button"]{
+	background:#ddd;
+	height:35px;
+}
+#area1,#area2,#area3 {
+	margin:2px;
+	padding:4px;
+	color:#000;
+}
+#area1 {
+	width:80%;
+	min-width:700px;
+	height:90px;
+	min-height:700px;
+	float: left;
+	margin-bottom:10px;
+}
+#area1 p{
+	margin:4px 0 0 0;
+}
+.area1a {
+	float:left;
+	color:#000;
+	width:40%;
+	display:none;
+}
+.area1b {
+	float:right;
+	color:#000;
+	display:none;
+}
+#area2 {
+	background-color: #777;
+	width:222px;
+	height:400px;
+	top: 40px;
+	right:0px;
+	position:fixed;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	z-index:15;
+	resize:horizontal;
+}
+#area2_border {
+	width:100%;
+	height:1px;
+}
+#area3 {
+	background-color: #777;
+	width:227px;
+	height:34px;
+	top: 0;
+	right:0px;
+	position:fixed;
+	z-index:21;
+	text-align:right;
+	color:#fff;
+	margin:0;
+	padding:2px;
+}
+#area3 p{
+	padding: 8px 20px 12px 0;
+	font-size: 14px;
+}
+
+#URLTXT, #FILEBTN{
+	margin:0 5px;
+	height:20px;
+}
+#URLTXT{
+	width:50%;
+}
+#URLBTN{
+	width:60px;
+	margin: 0;
+	padding: 0;
+}
+#CLRBTN{
+	width:120px;
+	height:40px;
+	float:right;
+}
+#area3 input.SORTBTN1, #area3 input.SORTBTN2, #area3 input.THUMBNAILBTN, #area3 input.refreshbtn, #area3 input.make-iso {
+	float:right;
+	width:35px;
+	height:32px;
+	margin:0 4px 0 0;
+	padding:0;
+	background:#ddd url(SORTBTN.PNG) no-repeat center 3px;
+}
+#area3 input.SORTBTN2 {
+/*	background:#ddd url(SORTBTN2.PNG) no-repeat center;*/
+}
+#area3 input.THUMBNAILBTN {
+	background:#ddd url(THUMBTGL.PNG) no-repeat center;
+}
+#area3 input.refreshbtn {
+	background:#eee url(REFRESH.PNG) no-repeat center center;
+}
+#area3 input.make-iso {
+}
+#area3 input.SORTBTN1:hover, #area3 input.SORTBTN2:hover, #area3 input.THUMBNAILBTN:hover, #area3 input.refreshbtn:hover, #area3 input.make-iso:hover {
+	background-color:#fff;
+}
+
+#DICOMREPORT {
+	clear:both;
+	z-index:9;
+	width:80%;
+	position:absolute;
+}
+#DICOMREPORT .filediv {
+	display:none;
+	float:left;
+	height:30px;
+	line-height:30px;
+	margin-bottom:5px;
+	padding:0 3px;
+	border:3px solid #888;
+	color:#fff;
+	background:#333;
+}
+#DICOMTHUMBNAIL {
+	width:100%;
+	height:100%;
+}
+#DICOMTHUMBNAIL img.scheckimg,
+#DICOMTHUMBNAIL img.scheckimg2 {
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 1px;
+	right: 3px;
+}
+#DICOMTHUMBNAIL img.scheckimg:hover {
+	width: 40px;
+	height: 40px;
+}
+#DICOMTHUMBNAIL img.scheckimg2 {
+	top: 35px;
+}
+#DICOM_TAGDIV {
+	position:absolute;
+	clear:both;
+	width:100%;
+	top: auto;
+	bottom: 18px;
+	display:block;
+	margin:0;
+	z-index:20;
+}
+#DICOM_TAGDIV div.DICOM_DATA_IMG {
+	display:block;
+	position:absolute;
+	float:left;
+	bottom:0;
+	width:5%;
+	max-width:40px;
+	height:30px;
+	background:rgba(0,0,0,0) url(TAGUPDN.PNG) no-repeat center 0px;
+}
+#DICOM_TAGDIV div.DICOM_DATA_IMG:hover {
+	background-color:#fff;
+}
+
+.DICOM_DATA {
+	border-style: solid;
+	border-collapse: collapse;
+	width:95%;
+	display:none;
+	float:left;
+	margin:0 0 0 3%;
+}
+.DICOM_DATA td{
+	padding:0px 2px 0px 2px;
+}
+
+.DICOM_DATA th {
+	background-color: #eee;
+}
+
+.DICOM_DATA .tha {width: 30px;text-align: center;}
+.DICOM_DATA .thb {width: 80px;text-align: center;}
+.DICOM_DATA .thb2{width: 30%; text-align: center;}
+.DICOM_DATA .thc {width: 30px;text-align: center;}
+.DICOM_DATA .thd {width: 60px;text-align: center;}
+.DICOM_DATA .the {            text-align: left;}
+
+.DICOM_DATA .tda {text-align: center;width:30px;height:20px;}
+.DICOM_DATA .tdb {text-align: center;}
+.DICOM_DATA .tdb2{text-align: left;}
+.DICOM_DATA .tdc {text-align: center;}
+.DICOM_DATA .tdd {text-align: right;}
+.DICOM_DATA .tde {text-align: left;}
+
+.DICOM_DATA .tda input[type=checkbox] {
+	width:30px;
+}
+
+input.MesaureBTN {
+	width:100px;
+	height:35px;
+}
+input.MesaureBTN[disabled] {
+	color:#bbb;
+}
+
+div.MDAFIELD {
+	width:90px;
+	height:25px;
+	line-height:25px;
+	background-color:#e0e0e0;
+	float:left;
+	text-align:right;
+	padding-right:8px;
+	color:#000;
+}
+div.MDAFIELD.MDALABEL {
+	text-align:center;
+	background-color:#eea;
+	width:110px;
+}
+div.MDAFIELD.MDATAG {
+	text-align:right;
+	background-color:#e0e0e0;
+	width:45px;
+}
+div.MDAFIELD.MDANUM {
+	text-align:right;
+	background-color:#f0f0f0;
+	width:40px;
+}
+div.MDAFIELD.MDAUNIT {
+	text-align:left;
+	background-color:#e0e0e0;
+	width:40px;
+}
+div.MDAFIELD.MDATITLE, div.MDAFIELD.MDASPACE, div.MDAFIELD.MDAFIX {
+	background-color:#cec;
+}
+div.MDAFIELD.MDANUM.MDAFIX {
+	background-color:#dfd;
+}
+div.MDAFIELD.MDATITLE, div.MDAFIELD.MDASPACE {
+	padding:0;
+}
+
+div.SLIDE-PLAY{
+	float:right;
+	width:410px;
+	text-align:left;
+}
+div.SLIDE-DIV {
+	clear:both;
+	float:left;
+	height:30px;
+	min-width:570px;
+}
+div.SLIDE-DIV input:nth-child(1) {
+	background:#ddd url(BRIGHT.PNG) no-repeat center center;
+}
+div.SLIDE-DIV input:nth-child(3) {
+	background:#ddd url(CONTRAST.PNG) no-repeat center center;
+}
+div.SLIDE-DIV input:nth-child(5) {
+	background:#ddd url(ZOOM.PNG) no-repeat center center;
+}
+div.SLIDE-DIV input:hover {
+	background-color:#fff;
+}
+
+div.SLIDE-FR,
+div.SLIDE-FR2 {
+	margin: 2px 0px 0px 0px;
+	padding: 0;
+	float:left;
+	width:120px;
+	height:24px;
+	position:relative;
+	background:#ccc;
+}
+div.SLIDE-FR2 {
+	width:492px;
+	margin: 2px 0px 0px 0px;
+}
+input.SLIDE-DEF,
+input.SLIDE-DEF2 {
+	width:46px;
+	height:30px;
+	padding:0;
+	float:left;
+	margin:0 0 0 20px;
+}
+input.SLIDE-DEF2 {
+	clear:both;
+}
+input.PLAYCTRL-0,input.PLAYCTRL-1,input.PLAYCTRL-2,input.PLAYCTRL-3,input.PLAYCTRL-4,input.PLAYCTRL-5,input.PLAYCTRL-6 {
+	width:40px;
+	height:30px;
+	float:left;
+}
+input.PLAYCTRL-0,input.PLAYCTRL-1,input.PLAYCTRL-2,input.PLAYCTRL-3,input.PLAYCTRL-4,input.PLAYCTRL-5,input.PLAYCTRL-6 {
+	background:#ddd url(PLAYCTL2.PNG) no-repeat center -2px;
+	display:block;
+	padding:0;
+	font-size: 0px;
+	line-height: 0px;
+}
+
+input.PLAYCTRL-0 {
+	width:50px;
+}
+div.PLAYCTRL-M {
+	text-align:right;
+	float:left;
+	font-size:16px;
+	padding-top:6px;
+	width:90px;
+}
+input.PLAYCTRL-1 {
+	margin-left: 20px;
+	background-image: url(PLAYCTL1.PNG);
+}
+input.PLAYCTRL-2 {background-image: url(PLAYCTL2.PNG);}
+input.PLAYCTRL-3 {background-image: url(PLAYCTL3.PNG);}
+input.PLAYCTRL-0 {background-image: url(PLAYCTL0.PNG);}
+input.PLAYCTRL-4 {background-image: url(PLAYCTL4.PNG);}
+input.PLAYCTRL-5 {background-image: url(PLAYCTL5.PNG);}
+input.PLAYCTRL-6 {background-image: url(PLAYCTL6.PNG);}
+
+p.ERRORDATA {
+	color:red;
+	line-height:30px;
+	float:right;
+	padding:0;
+	margin:0 0 0 20px;
+}
+input.SENDBUTTON {
+	width:40px;
+	height:30px;
+	margin: 3px 0;
+	padding: 0;
+}
+#progressarea {
+	position:absolute;
+	z-index:999;
+	width:99.9%;
+	height:99%;
+	margin:0;
+	padding:0;
+	background:rgba(128,128,128,0.5);
+	display:none;
+}
+#progressarea .progressmsg {
+	margin:200px auto 0;
+	width:300px;
+	height:200px;
+	background:#FFF;
+	text-align:center;
+	color:#000;
+}
+.progressmsg .progmsg {
+	width:100%;
+	margin:20px auto 5px;
+	font-size:16px;
+}
+.progressmsg .progmsg2 {
+	width:80%;
+	margin:20px auto 2px;
+	border:none;
+	resize: none;
+}
+.progressmsg .progbar {
+	width:80%;
+	margin:10px auto 0;
+}
+.progressmsg .proginput {
+	margin:0 auto;
+	width:80px;
+	height:25px;
+}
+.progressmsg input {
+	width:80px;
+	height:25px;
+	display:block;
+}
+
+
+div.msgboxarea {
+	position:absolute;
+	z-index:999;
+	width:99.9%;
+	height:99%;
+	margin:0;
+	padding:0;
+	background:rgba(128,128,128,0.5);
+	display:none;
+}
+div.msgboxarea .state3msg {
+	margin:200px auto 0;
+	width:500px;
+	height:200px;
+	background:#FFF;
+	text-align:center;
+	color:#000;
+}
+.state3msg .titlemsg {
+	width:100%;
+	margin:10px auto 5px;
+	font-size:20px;
+}
+.state3msg .confmsg {
+	width:90%;
+	margin:2% auto;
+	padding:0 5px;
+	color: #000;
+}
+.state3msg .confmsg p {
+	margin:10px auto 0;
+	color: #c00;
+	width:100%;
+}
+.state3msg .confmsg span {
+	margin:0 auto;
+	color:#000;
+}
+.state3msg .confinput {
+	margin:0 auto;
+	width:90%;
+}
+.state3msg input {
+	margin:3% 5% 0 15%;
+	width:25%;
+	height:30px;
+	display:block;
+	float:left;
+}
+#msgboxarea2 .state3msg input {
+	margin:3% 3.5% 0;
+}
